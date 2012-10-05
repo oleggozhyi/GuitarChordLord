@@ -8,8 +8,9 @@
       d:DesignHeight="768"
       d:DesignWidth="1366"
       DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+
     <Page.Resources>
+
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
@@ -18,6 +19,18 @@
     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="ChordsGroupedCollection" 
+                                  Source="{Binding ChordsGroups}" 
+                                  IsSourceGrouped="True"
+                                  ItemsPath="Chords"
+                                  />
+
+            <CollectionViewSource x:Key="ChordsCollection" 
+                                  Source="{Binding ChordsGroups}" 
+                                  ItemsPath="Chords"
+                                  />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
@@ -28,17 +41,65 @@
                    HorizontalAlignment="Left"
                    FontFamily="Segoe UI Light" 
                    Margin="120,49,0,0" />
-        <SemanticZoom>
-            <SemanticZoom.ZoomedOutView>
-                <GridView>
-                    
-                </GridView>
-            </SemanticZoom.ZoomedOutView>
+        <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <GridView>
-                    
+                <GridView ItemsSource="{Binding Source={StaticResource ChordsGroupedCollection}}" SelectionMode="None"
+            IsSwipeEnabled="false">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Left" Width="250" Height="250">
+                                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                                </Border>
+                                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="1,0,0,6" HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource TextPrimaryButtonStyle}" Content="{Binding GroupName}"></Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="GroupItem">
+                                    <Setter Property="MinWidth" Value="600"/>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
                 </GridView>
             </SemanticZoom.ZoomedInView>
+            <SemanticZoom.ZoomedOutView>
+                <GridView ItemsSource="{Binding Source={StaticResource ChordsCollection}}" SelectionMode="None"
+            IsSwipeEnabled="false"   >
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Left" Width="120" Height="70">
+                                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                                </Border>
+                                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                                    <TextBlock Text="{Binding GroupName}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
     </Grid>
 </Page>

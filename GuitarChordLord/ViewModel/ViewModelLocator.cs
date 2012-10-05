@@ -36,6 +36,8 @@ namespace GuitarChordLord.ViewModel
             }
             else
             {
+                SimpleIoc.Default.Register<IChordService, DesignChordService>();
+
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

@@ -37,6 +37,7 @@ namespace GuitarChords.Core
         private NoteName(string name, string altName = "")
         {
             Name = name;
+            AlternativeName = altName;
         }
 
         public string Name { get; private set; }
