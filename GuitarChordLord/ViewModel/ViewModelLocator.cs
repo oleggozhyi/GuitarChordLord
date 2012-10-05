@@ -11,8 +11,9 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using GuitarChordLord.Design;
+using GuitarChords.Core;
 using Microsoft.Practices.ServiceLocation;
-using GuitarChordLord.Model;
 
 namespace GuitarChordLord.ViewModel
 {
@@ -31,11 +32,10 @@ namespace GuitarChordLord.ViewModel
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+                SimpleIoc.Default.Register<IChordService, DesignChordService>();
             }
             else
             {
-                SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

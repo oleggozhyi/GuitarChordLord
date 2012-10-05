@@ -18,12 +18,27 @@
     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <TextBlock FontSize="56"
-                   Text="{Binding WelcomeTitle}"
+                   Text="Guitar Chord Lord"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Left"
                    FontFamily="Segoe UI Light" 
                    Margin="120,49,0,0" />
-
+        <SemanticZoom>
+            <SemanticZoom.ZoomedOutView>
+                <GridView>
+                    
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+            <SemanticZoom.ZoomedInView>
+                <GridView>
+                    
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+        </SemanticZoom>
     </Grid>
 </Page>

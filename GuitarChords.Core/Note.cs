@@ -33,7 +33,12 @@ namespace GuitarChords.Core
 
         public double Frequency
         {
-            get { return C0Frequency*Math.Pow(2, _note/12d); }
+            get { return C0Frequency * Math.Pow(2, _note / 12d); }
+        }
+
+        public NoteName Name
+        {
+            get { return Octave.GetNoteName(this); }
         }
 
         #endregion
@@ -45,7 +50,7 @@ namespace GuitarChords.Core
             return new Note(note);
         }
 
-        public  static Interval operator-(Note note1, Note note2)
+        public static Interval operator -(Note note1, Note note2)
         {
             return new Interval(note1, note2);
         }
@@ -60,12 +65,12 @@ namespace GuitarChords.Core
             return new Note(note1.OffsetFromC0 + pitch);
         }
 
-        public static Chord operator +(Note note1, Note note2)
+        public static ChordNotes operator +(Note note1, Note note2)
         {
-            return new Chord();
+            return new ChordNotes();
         }
 
-        public static bool operator== (Note note1, Note note2)
+        public static bool operator ==(Note note1, Note note2)
         {
             return note1.Equals(note2);
         }
@@ -90,13 +95,14 @@ namespace GuitarChords.Core
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Note && Equals((Note) obj);
+            return obj is Note && Equals((Note)obj);
         }
 
         public override int GetHashCode()
         {
             return _note;
         }
+
 
         public override string ToString()
         {

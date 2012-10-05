@@ -23,13 +23,13 @@ namespace GuitarChords.Core
 
         public int StartingFret { get; set; }
 
-        public Chord GetChord(GuitarSystem guitarSystem)
+        public ChordNotes GetChord(GuitarSystem guitarSystem)
         {
             var notes = Strings.Where(s => !s.IsMuted).Select(guitarSystem.GetNote).ToArray();
-            return new Chord(notes);
+            return new ChordNotes(notes);
         }
 
-        public Chord GetChord()
+        public ChordNotes GetChord()
         {
             return GetChord(GuitarSystem.Standard);
         }

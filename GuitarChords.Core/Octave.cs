@@ -68,6 +68,14 @@ namespace GuitarChords.Core
             return noteString;
         }
 
+        public static NoteName GetNoteName(Note note)
+        {
+            Octave octave = GetOctave(note);
+            int n = note.OffsetFromC0 % 12;
+            string noteString = NoteToOffsetMapping.First(p => p.Value == n).Key;
+            return NoteName.GetNote(noteString);
+        }
+
 
         public static Octave[] Octaves { get; private set; }
 

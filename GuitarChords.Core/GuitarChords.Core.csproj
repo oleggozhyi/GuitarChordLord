@@ -103,13 +103,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chord.cs" />
+    <Compile Include="ChordNotes.cs" />
     <Compile Include="Fingering.cs" />
     <Compile Include="FingeringBuiler.cs" />
     <Compile Include="GuitarString.cs" />
     <Compile Include="GuitarSystem.cs" />
     <Compile Include="Helpers\ExtensionHelper.cs" />
+    <Compile Include="IChordService.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="NoteName.cs" />
     <Compile Include="Octave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

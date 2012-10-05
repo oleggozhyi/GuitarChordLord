@@ -37,9 +37,9 @@ D|---|-x-|---|---|
 A|---|-x-|---|---|
 X|---|---|---|---|");
 
-            Chord chord = fingering.GetChord();
+            ChordNotes chordNotes = fingering.GetChord();
 
-            chord.ToString().Should().Be("B(2) | E(3) | G#(3) | B(3) | E(4)");
+            chordNotes.ToString().Should().Be("B(2) | E(3) | G#(3) | B(3) | E(4)");
         }
 
         [TestMethod]
