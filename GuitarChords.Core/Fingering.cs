@@ -59,7 +59,7 @@ namespace GuitarChords.Core
             try
             {
                 string regexPattern = @"";
-                string[] strings = s.Split('\n');
+                string[] strings = s.Trim().Split('\n');
                 int offset = strings[0].Trim().ToArabicNumber();
                 var guitarStrings = new List<GuitarString>();
                 for (int i = 1; i <= 6; i++)

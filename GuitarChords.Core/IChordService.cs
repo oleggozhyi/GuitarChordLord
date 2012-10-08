@@ -9,6 +9,6 @@ namespace GuitarChords.Core
     public interface IChordService
     {
         IEnumerable<NoteName> NoteNames { get; }
-        IEnumerable<Chord> GetChords(NoteName name);
+        Task<IEnumerable<Chord>> GetChordsAsync(NoteName name);
     }
 }

@@ -11,7 +11,6 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using GuitarChordLord.Design;
 using GuitarChords.Core;
 using Microsoft.Practices.ServiceLocation;
 
@@ -29,17 +28,7 @@ namespace GuitarChordLord.ViewModel
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IChordService, DesignChordService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IChordService, DesignChordService>();
-
-            }
-
+            SimpleIoc.Default.Register<IChordService, ChordService>();
             SimpleIoc.Default.Register<MainViewModel>();
         }
 

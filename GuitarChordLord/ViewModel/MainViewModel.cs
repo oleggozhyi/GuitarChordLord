@@ -7,27 +7,43 @@ using System.Linq;
 
 namespace GuitarChordLord.ViewModel
 {
-
     public class MainViewModel : ViewModelBase
     {
         private readonly IChordService _chordService;
         private IEnumerable<ChordsGroupViewModel> _chordsGroups;
 
-        public MainViewModel(IChordService chordService)
-        {
-            _chordService = chordService;
-            ChordsGroups = chordService.NoteNames.Select(n => new ChordsGroupViewModel
-            {
-                GroupName = GetChordGroupTitle(n),
-                Chords = chordService.GetChords(n).Select(c => new ChordsItemViewModel(c))
-            });
-        }
-
         public IEnumerable<ChordsGroupViewModel> ChordsGroups
         {
             get { return _chordsGroups; }
-            set { _chordsGroups = value; }
+            private set
+            {
+                if(_chordsGroups != value)
+                {
+                    _chordsGroups = value;
+                    RaisePropertyChanged(() => ChordsGroups);
+                }
+            }
         }
+
+        public MainViewModel(IChordService chordService)
+        {
+            _chordService = chordService;
+            LoadChords();
+
+        }
+
+        private async void LoadChords()
+        {
+            var chordsGroups = new List<ChordsGroupViewModel>();
+            foreach (var n in _chordService.NoteNames)
+            {
+                var chords = (await _chordService.GetChordsAsync(n)).Select(c => new ChordsItemViewModel(c)).ToArray();
+                chordsGroups.Add(new ChordsGroupViewModel { GroupName = GetChordGroupTitle(n), Chords = chords });
+            }
+
+            ChordsGroups = chordsGroups;
+        }
+
 
         private static string GetChordGroupTitle(NoteName noteName)
         {
@@ -35,28 +51,4 @@ namespace GuitarChordLord.ViewModel
             return note + " Chords";
         }
     }
-
-    public class ChordsGroupViewModel : ViewModelBase
-    {
-        public string GroupName { get; set; }
-        public IEnumerable<ChordsItemViewModel> Chords { get; set; }
-
-    }
-
-    public class ChordsItemViewModel : ViewModelBase
-    {
-        private readonly Chord _chord;
-
-        public ChordsItemViewModel(Chord chord)
-        {
-            _chord = chord;
-        }
-
-        public string Name
-        {
-            get { return _chord.Name; }
-        }
-
-    }
-
 }

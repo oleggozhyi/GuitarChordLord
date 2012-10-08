@@ -4,10 +4,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ignore="http://www.ignore.com"
+      xmlns:DesignTime="using:GuitarChordLord.ViewModel.DesignTime"
       mc:Ignorable="d ignore"
       d:DesignHeight="768"
       d:DesignWidth="1366"
-      DataContext="{Binding Main, Source={StaticResource Locator}}">
+      DataContext="{Binding Main, Source={StaticResource Locator}}" Margin="0,1,0,-1">
 
     <Page.Resources>
 
@@ -15,28 +16,32 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.Resources>
             <CollectionViewSource x:Key="ChordsGroupedCollection" 
                                   Source="{Binding ChordsGroups}" 
+                                  d:Source="{Binding ChordsGroups, Source={d:DesignInstance Type=DesignTime:DesignMainViewModel, IsDesignTimeCreatable=True}}"
                                   IsSourceGrouped="True"
-                                  ItemsPath="Chords"
+                                  ItemsPath="LimitedChordsList"
                                   />
 
             <CollectionViewSource x:Key="ChordsCollection" 
                                   Source="{Binding ChordsGroups}" 
-                                  ItemsPath="Chords"
                                   />
-        </Grid.Resources>
+
+            <Style x:Key="LinkButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource TextPrimaryButtonStyle}" >
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+      
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock FontSize="56"
-                   Text="Guitar Chord Lord"
+        <TextBlock x:Uid="AppNameLabel"
+            FontSize="56"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Left"
                    FontFamily="Segoe UI Light" 
@@ -46,12 +51,26 @@
                 <GridView ItemsSource="{Binding Source={StaticResource ChordsGroupedCollection}}" SelectionMode="None"
             IsSwipeEnabled="false">
                     <GridView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Left" Width="250" Height="250">
-                                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                        <DataTemplate>  
+                            <Grid HorizontalAlignment="Left" Width="200" Height="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="#FFEEB1B1" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="Black"/>
+                                            <GradientStop Color="#FF190606" Offset="1"/>
+                                            <GradientStop Color="#FF592A2A" Offset="0.556"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Fingering}" FontFamily="Consolas" FontWeight="Bold" FontSize="16" />
                                 </Border>
-                                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
+                                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Background="#FF381C1C">
+                                    <Border BorderBrush="#FF8D4848" BorderThickness="1">
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Foreground="#FFC8E800"/>
+                                    </Border>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -63,38 +82,42 @@
                     </GridView.ItemsPanel>
                     <GridView.GroupStyle>
                         <GroupStyle>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <VariableSizedWrapGrid Margin="0,0,50,0" Orientation="Horizontal" MaximumRowsOrColumns="2" ></VariableSizedWrapGrid>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
                                     <Grid Margin="1,0,0,6" HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource TextPrimaryButtonStyle}" Content="{Binding GroupName}"></Button>
+                                        <Button Style="{StaticResource LinkButtonStyle}" Content="{Binding GroupName}"></Button>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="GroupItem">
-                                    <Setter Property="MinWidth" Value="600"/>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
                         </GroupStyle>
                     </GridView.GroupStyle>
                 </GridView>
             </SemanticZoom.ZoomedInView>
             <SemanticZoom.ZoomedOutView>
-                <GridView ItemsSource="{Binding Source={StaticResource ChordsCollection}}" SelectionMode="None"
-            IsSwipeEnabled="false"   >
+                <GridView ItemsSource="{Binding Path=CollectionGroups, Source={StaticResource ChordsGroupedCollection}}" SelectionMode="None">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
+                            <VariableSizedWrapGrid HorizontalAlignment="Center"  Orientation="Vertical" MaximumRowsOrColumns="4"  ></VariableSizedWrapGrid>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Left" Width="120" Height="70">
-                                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                            <Grid HorizontalAlignment="Left" Width="200" Height="100">
+                                <Border BorderBrush="#FFEEB1B1" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="Black"/>
+                                            <GradientStop Color="#FF190606" Offset="1"/>
+                                            <GradientStop Color="#FF592A2A" Offset="0.556"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Group.GroupName}" FontFamily="Consolas" FontWeight="Bold" FontSize="24" />
                                 </Border>
-                                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                                    <TextBlock Text="{Binding GroupName}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
-                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
