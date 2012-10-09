@@ -17,6 +17,10 @@ namespace GuitarChordLord
     {
         private Dictionary<NoteName, List<Chord>> _chordsDic;
 
+        public NoteName SelectedRoot { get; private set; }
+
+        public Chord SelectedChord { get; private set; }
+
         public IEnumerable<NoteName> NoteNames
         {
             get { return NoteName.NoteNames; }

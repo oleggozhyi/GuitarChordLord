@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GuitarChords.Core;
 
 namespace GuitarChordLord.ViewModel
 {
+    [DebuggerDisplay("{Name}")]
     public class ChordsItemViewModel : ViewModelBase
     {
         private readonly Chord _chord;

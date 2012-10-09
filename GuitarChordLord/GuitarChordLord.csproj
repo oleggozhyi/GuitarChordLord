@@ -114,12 +114,16 @@
     <Compile Include="ChordsList.xaml.cs">
       <DependentUpon>ChordsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Mvvm\GridViewItemClickCommand.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Mvvm\INavigationService.cs" />
+    <Compile Include="Mvvm\NavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\ChordsGroupViewModel.cs" />
     <Compile Include="ViewModel\ChordsItemViewModel.cs" />
+    <Compile Include="ViewModel\ChordsListViewModel.cs" />
     <Compile Include="ViewModel\DesignTime\DesignMainViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

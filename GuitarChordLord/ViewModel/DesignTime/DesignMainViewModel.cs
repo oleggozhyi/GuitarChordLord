@@ -54,7 +54,7 @@ E|---|---|---|---|";
                 return from n in NoteName.NoteNames
                        select new ChordsGroupViewModel
                               {
-                                  GroupName = n.Name + " Chords",
+                                  Root = n,
                                   Chords = GetChords(n).ToArray()
                               };
             }

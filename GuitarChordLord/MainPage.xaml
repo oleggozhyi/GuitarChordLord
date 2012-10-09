@@ -5,6 +5,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ignore="http://www.ignore.com"
       xmlns:DesignTime="using:GuitarChordLord.ViewModel.DesignTime"
+      xmlns:local="using:GuitarChordLord" xmlns:Mvvm="using:GuitarChordLord.Mvvm" x:Name="MainPage1"
+
       mc:Ignorable="d ignore"
       d:DesignHeight="768"
       d:DesignWidth="1366"
@@ -49,7 +51,7 @@
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
                 <GridView ItemsSource="{Binding Source={StaticResource ChordsGroupedCollection}}" SelectionMode="None"
-            IsSwipeEnabled="false">
+            IsSwipeEnabled="false" Mvvm:GridViewItemClickCommand.Command="{Binding SelectChordCommand}" IsItemClickEnabled="True">
                     <GridView.ItemTemplate>
                         <DataTemplate>  
                             <Grid HorizontalAlignment="Left" Width="200" Height="200">
@@ -90,7 +92,10 @@
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
                                     <Grid Margin="1,0,0,6" HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource LinkButtonStyle}" Content="{Binding GroupName}"></Button>
+                                        <Button Style="{StaticResource LinkButtonStyle}" 
+                                                Content="{Binding GroupName}" 
+                                                Command="{Binding Path=DataContext.SelectChordRootCommand, ElementName=MainPage1}" 
+                                                CommandParameter="{Binding}"/>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>

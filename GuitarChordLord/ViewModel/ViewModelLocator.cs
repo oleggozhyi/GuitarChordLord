@@ -30,6 +30,7 @@ namespace GuitarChordLord.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<IChordService, ChordService>();
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<ChordsListViewModel>();
         }
 
         /// <summary>
@@ -43,6 +44,17 @@ namespace GuitarChordLord.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+    "CA1822:MarkMembersAsStatic",
+    Justification = "This non-static member is needed for data binding purposes.")]
+        public ChordsListViewModel ChordsList
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ChordsListViewModel>();
             }
         }
 

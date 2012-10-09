@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Threading;
+using GuitarChordLord.Mvvm;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -57,6 +59,8 @@ namespace GuitarChordLord
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
+
+            SimpleIoc.Default.Register<INavigationService>(() => new NavigationService(rootFrame));
 
             if (rootFrame.Content == null)
             {

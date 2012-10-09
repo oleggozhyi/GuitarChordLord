@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GuitarChords.Core;
 using Windows.UI.Xaml.Data;
 using System.Linq;
@@ -25,11 +27,25 @@ namespace GuitarChordLord.ViewModel
             }
         }
 
+        public ICommand SelectChordCommand { get; private set; }
+        public ICommand SelectChordRootCommand { get; private set; }
+
         public MainViewModel(IChordService chordService)
         {
+            SelectChordCommand = new RelayCommand<ChordsItemViewModel>(SelectChord);
+            SelectChordRootCommand = new RelayCommand<ChordsGroupViewModel>(SelectChordRoot);
             _chordService = chordService;
             LoadChords();
 
+        }
+            
+        private void SelectChordRoot(ChordsGroupViewModel clickedRoot)
+        {
+        }
+
+        private void SelectChord(ChordsItemViewModel clickedChord)
+        {
+            
         }
 
         private async void LoadChords()
@@ -38,17 +54,10 @@ namespace GuitarChordLord.ViewModel
             foreach (var n in _chordService.NoteNames)
             {
                 var chords = (await _chordService.GetChordsAsync(n)).Select(c => new ChordsItemViewModel(c)).ToArray();
-                chordsGroups.Add(new ChordsGroupViewModel { GroupName = GetChordGroupTitle(n), Chords = chords });
+                chordsGroups.Add(new ChordsGroupViewModel { Root = n, Chords = chords });
             }
 
             ChordsGroups = chordsGroups;
-        }
-
-
-        private static string GetChordGroupTitle(NoteName noteName)
-        {
-            string note = noteName.IsNatural ? noteName.Name : string.Format("{0}({1})", noteName.Name, noteName.AlternativeName);
-            return note + " Chords";
         }
     }
 }
