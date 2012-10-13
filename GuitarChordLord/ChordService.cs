@@ -17,24 +17,25 @@ namespace GuitarChordLord
     {
         private Dictionary<NoteName, List<Chord>> _chordsDic;
 
-        public NoteName SelectedRoot { get; private set; }
+        public NoteName SelectedRoot { get;  set; }
 
-        public Chord SelectedChord { get; private set; }
+        public Chord SelectedChord { get;  set; }
 
         public IEnumerable<NoteName> NoteNames
         {
             get { return NoteName.NoteNames; }
         }
-        public async Task<IEnumerable<Chord>> GetChordsAsync(NoteName name)
+
+        public IEnumerable<Chord> GetChords(NoteName name)
         {
             if (_chordsDic == null)
             {
-                await Task.Run(() => ParseChords());
+                LoadChords();
             }
-            return await Task.FromResult(_chordsDic[name]);
+            return _chordsDic[name];
         }
 
-        private void ParseChords()
+        public void LoadChords()
         {
             _chordsDic = new Dictionary<NoteName, List<Chord>>();
             Assembly assembly = typeof(ChordService).GetTypeInfo().Assembly;

@@ -29,5 +29,11 @@ namespace GuitarChordLord
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        private void ToggleButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            ToggleButton button = (ToggleButton)sender;
+            VisualStateManager.GoToState(button, button.IsChecked.Value ? "Checked" : "Unchecked", false);
+        }
     }
 }

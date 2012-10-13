@@ -8,9 +8,9 @@ namespace GuitarChords.Core
 {
     public interface IChordService
     {
-        NoteName SelectedRoot { get; }
-        Chord SelectedChord { get; }
+        NoteName SelectedRoot { get; set; }
+        Chord SelectedChord { get; set; }
         IEnumerable<NoteName> NoteNames { get; }
-        Task<IEnumerable<Chord>> GetChordsAsync(NoteName name);
+        IEnumerable<Chord> GetChords(NoteName name);
     }
 }

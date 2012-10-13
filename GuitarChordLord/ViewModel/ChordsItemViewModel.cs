@@ -21,7 +21,7 @@ namespace GuitarChordLord.ViewModel
         }
 
 
-        public string Fingering
+        public string FirstFingering
         {
             get { return _chord.Fingerings.First().ToString(); }
         }

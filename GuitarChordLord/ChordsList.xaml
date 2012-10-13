@@ -4,13 +4,22 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ignore="http://www.ignore.com"
-      xmlns:local="using:GuitarChordLord" xmlns:Mvvm="using:GuitarChordLord.Mvvm" mc:Ignorable="d ignore"
+      xmlns:local="using:GuitarChordLord" xmlns:Mvvm="using:GuitarChordLord.Mvvm"
+      xmlns:vm="using:GuitarChordLord.ViewModel" mc:Ignorable="d ignore"
       d:DesignHeight="768"
       d:DesignWidth="1366"
-      x:Name="ChordListPage"
+      x:Name="pageRoot"
       DataContext="{Binding ChordList, Source={StaticResource Locator}}">
-    
+
     <Page.Resources>
+        <ResourceDictionary>
+            <CollectionViewSource x:Key="Chords" 
+                                  Source="{Binding Chords}" 
+                                  d:Source="{Binding Chords, Source={d:DesignInstance Type=vm:DesignSharedViewModel, IsDesignTimeCreatable=True}}"
+                                  IsSourceGrouped="False">
+
+            </CollectionViewSource>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
@@ -24,9 +33,46 @@
                    HorizontalAlignment="Left"
                    FontFamily="Segoe UI Light" 
                    Margin="120,49,0,0" />
-        
-        <GridView Grid.Row="1" Mvvm:GridViewItemClickCommand.Command="{Binding SelecyChord}">
-            
+        <Button x:Name="backButton" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Command="{Binding GoBackCommand}" Style="{StaticResource BackButtonStyle}"/>
+        <GridView HorizontalAlignment="Center"
+                  ItemsSource="{Binding Source={StaticResource Chords}}"
+                  Mvvm:GridViewItemClickCommand.Command="{Binding SelectChord}" Grid.Row="1">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid>
+                        <WrapGrid.ChildrenTransitions>
+                            <TransitionCollection>
+                                <PaneThemeTransition Edge="Top"></PaneThemeTransition>
+                            </TransitionCollection>
+                        </WrapGrid.ChildrenTransitions>
+                    </WrapGrid>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Left" Width="170" Height="170">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="#FFEEB1B1" BorderThickness="1">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black"/>
+                                    <GradientStop Color="#FF190606" Offset="1"/>
+                                    <GradientStop Color="#FF592A2A" Offset="0.556"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FirstFingering}" FontFamily="Consolas" FontWeight="Bold" FontSize="16" />
+                        </Border>
+                        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Background="#FF381C1C">
+                            <Border BorderBrush="#FF8D4848" BorderThickness="1">
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Foreground="#FFC8E800"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
         </GridView>
     </Grid>
 </Page>

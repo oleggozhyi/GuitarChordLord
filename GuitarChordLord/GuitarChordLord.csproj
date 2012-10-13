@@ -110,6 +110,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChordDetails.xaml.cs">
+      <DependentUpon>ChordDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ChordService.cs" />
     <Compile Include="ChordsList.xaml.cs">
       <DependentUpon>ChordsList.xaml</DependentUpon>
@@ -119,12 +122,14 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mvvm\INavigationService.cs" />
+    <Compile Include="Mvvm\IRefreshable.cs" />
     <Compile Include="Mvvm\NavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\ChordDetailsViewModel.cs" />
     <Compile Include="ViewModel\ChordsGroupViewModel.cs" />
     <Compile Include="ViewModel\ChordsItemViewModel.cs" />
     <Compile Include="ViewModel\ChordsListViewModel.cs" />
-    <Compile Include="ViewModel\DesignTime\DesignMainViewModel.cs" />
+    <Compile Include="ViewModel\DesignSharedViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
@@ -147,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ChordDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ChordsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

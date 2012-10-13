@@ -3,9 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:ignore="http://www.ignore.com"
-      xmlns:DesignTime="using:GuitarChordLord.ViewModel.DesignTime"
-      xmlns:local="using:GuitarChordLord" xmlns:Mvvm="using:GuitarChordLord.Mvvm" x:Name="MainPage1"
+      xmlns:ignore="http://www.ignore.com" xmlns:local="using:GuitarChordLord" xmlns:Mvvm="using:GuitarChordLord.Mvvm"
+      xmlns:vm="using:GuitarChordLord.ViewModel" x:Name="pageRoot"
 
       mc:Ignorable="d ignore"
       d:DesignHeight="768"
@@ -21,23 +20,21 @@
 
             <CollectionViewSource x:Key="ChordsGroupedCollection" 
                                   Source="{Binding ChordsGroups}" 
-                                  d:Source="{Binding ChordsGroups, Source={d:DesignInstance Type=DesignTime:DesignMainViewModel, IsDesignTimeCreatable=True}}"
+                                  d:Source="{Binding ChordsGroups, Source={d:DesignInstance Type=vm:DesignSharedViewModel, IsDesignTimeCreatable=True}}"
                                   IsSourceGrouped="True"
                                   ItemsPath="LimitedChordsList"
                                   />
 
-            <CollectionViewSource x:Key="ChordsCollection" 
-                                  Source="{Binding ChordsGroups}" 
-                                  />
 
             <Style x:Key="LinkButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource TextPrimaryButtonStyle}" >
                 <Setter Property="FontSize" Value="24" />
             </Style>
+
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-      
+
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
@@ -50,10 +47,10 @@
                    Margin="120,49,0,0" />
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <GridView ItemsSource="{Binding Source={StaticResource ChordsGroupedCollection}}" SelectionMode="None"
-            IsSwipeEnabled="false" Mvvm:GridViewItemClickCommand.Command="{Binding SelectChordCommand}" IsItemClickEnabled="True">
+                <GridView ItemsSource="{Binding Source={StaticResource ChordsGroupedCollection}}" SelectionMode="None"  
+             Mvvm:GridViewItemClickCommand.Command="{Binding SelectChordCommand}" IsItemClickEnabled="True">
                     <GridView.ItemTemplate>
-                        <DataTemplate>  
+                        <DataTemplate>
                             <Grid HorizontalAlignment="Left" Width="200" Height="200">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"></RowDefinition>
@@ -67,7 +64,7 @@
                                             <GradientStop Color="#FF592A2A" Offset="0.556"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Fingering}" FontFamily="Consolas" FontWeight="Bold" FontSize="16" />
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FirstFingering}" FontFamily="Consolas" FontWeight="Bold" FontSize="16" />
                                 </Border>
                                 <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Background="#FF381C1C">
                                     <Border BorderBrush="#FF8D4848" BorderThickness="1">
@@ -77,9 +74,20 @@
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
+                    <!--<GridView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition></AddDeleteThemeTransition>
+                        </TransitionCollection>
+                    </GridView.ItemContainerTransitions>-->
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Orientation="Horizontal"/>
+                            <VirtualizingStackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection>
+                                        <AddDeleteThemeTransition></AddDeleteThemeTransition>
+                                    </TransitionCollection>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.GroupStyle>
@@ -94,7 +102,7 @@
                                     <Grid Margin="1,0,0,6" HorizontalAlignment="Center">
                                         <Button Style="{StaticResource LinkButtonStyle}" 
                                                 Content="{Binding GroupName}" 
-                                                Command="{Binding Path=DataContext.SelectChordRootCommand, ElementName=MainPage1}" 
+                                                Command="{Binding Path=DataContext.SelectChordRootCommand, ElementName=pageRoot}" 
                                                 CommandParameter="{Binding}"/>
                                     </Grid>
                                 </DataTemplate>
@@ -129,5 +137,11 @@
                 </GridView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+        <AppBar Grid.Row="1" VerticalAlignment="Bottom" Background="DarkBlue">
+          
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ToggleButton IsChecked="{Binding ShowNaturalOnly, Mode=TwoWay}"  Click="ToggleButton_Click_1" Style="{StaticResource AppBarButtonStyle}" Content="#/b"  AutomationProperties.Name="Show natural only" ></ToggleButton>
+            </StackPanel>
+        </AppBar>
     </Grid>
 </Page>

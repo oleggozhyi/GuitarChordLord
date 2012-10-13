@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GalaSoft.MvvmLight;
-using GuitarChordLord.Mvvm;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -16,9 +14,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace GuitarChordLord
 {
-    public sealed partial class ChordsList : Page
+    public sealed partial class ChordDetails : Page
     {
-        public ChordsList()
+        public ChordDetails()
         {
             this.InitializeComponent();
         }
@@ -30,9 +28,6 @@ namespace GuitarChordLord
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var refreshable = DataContext as IRefreshable;
-            if(refreshable != null)
-                refreshable.Refresh();
         }
     }
 }
